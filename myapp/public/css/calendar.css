@@ -1,0 +1,41 @@
+.calendar {
+    width: 420px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+}
+
+.calendar button {
+    width: 60px;
+    height: 60px;
+    margin: 5px;
+    font-size: 18px;
+    position: relative;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.dropdown-container {
+    position: absolute;
+    top: 60px;
+    /* ボタンの下 */
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+select {
+    width: 100%;
+    font-size: 16px;
+    padding: 4px;
+}
+
+.selected-item {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #333;
+    text-align: center;
+    min-height: 20px;
+}

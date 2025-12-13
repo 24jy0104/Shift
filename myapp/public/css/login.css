@@ -1,0 +1,28 @@
+.center-text{
+    text-align: center;
+}
+
+fieldset{
+    text-align: center;
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top: 20px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    border-radius: 10px;
+    border: 10px solid green;
+    /* border: none; */
+}
+
+.login-text{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#login-button{
+    background-color: green;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}

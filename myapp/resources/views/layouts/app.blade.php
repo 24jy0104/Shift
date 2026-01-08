@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>管理システム</title>
+</head>
+
+<body>
+
+    @yield('content')
+
+</body>
+
+</html>

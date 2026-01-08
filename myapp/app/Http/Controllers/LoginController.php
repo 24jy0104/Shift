@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use App\Models\Staff;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -12,63 +13,36 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
-    public function login()
+    public function showLogin()
     {
         return view('login');
     }
-
     public function loginCheck(Request $request)
     {
-
-        $id = $request->input('id');
-        $pass = $request->input('password');
-
-        $user = User::where('register_id', $id)->first();
-
-        if ($user && Hash::check($pass, $user->password)) {
-
-            $request->session()->put('login_id', $user->register_id);
-            $request->session()->put('user_role', $user->role);
-    
-            // ★ 管理者
-            if ($user->role === 'admin') {
-                return redirect('/shift');
-            }
-    
-            // ★ バイト
-            return redirect('/customer_top');  
-        }
-    
-        return redirect('/login')->with('error', 'IDかパスワードが違います');
-    }
-
-    public function register()
-    {
-        return view('registercustomer');
-    }
-
-    public function register_check(Request $request)
-    {
-        $name = $request->input('name');
-        $id = $request->input('id');
-        $pass = $request->input('pass');
-        $rpass = $request->input('rpass');
-
-        if ($pass !== $rpass) {
-            return redirect('/registercustomer')->with('error', 'パスワードが一致しません');
-        }
-        return view('confirmNewCustomer', compact('name', 'id', 'pass'));
-    }
-    public function addCustomer(Request $request)
-    {
-        User::create([
-            'name' => $request->input('name'),
-            'register_id' => $request->input('id'),
-            'password' => bcrypt($request->input('pass')),
+        $request->validate([
+            'register_number' => 'required',
+            'password' => 'required',
         ]);
 
+        // 管理者チェック
+        // $admin = User::where('register_no', $request->register_no)->first();
+        // 管理者チェック
+        if ($request->register_number == 99999 && $request->password === '9999') {
+            session(['role' => 'admin']);
+            return redirect('/admin/menu');
+        }
 
-        return redirect('/login')->with('success', '登録が完了しました！');
+        // バイトチェック
+        $staff = Staff::where('register_number', $request->register_number)->first();
+
+        if ($staff && Hash::check($request->password, $staff->password)) {
+            auth()->guard('staff')->login($staff);
+            return redirect('/staff/menu');
+        }
+
+        return back()->withErrors([
+            'login' => 'レジ番号またはパスワードが違います',
+        ]);
     }
 
 

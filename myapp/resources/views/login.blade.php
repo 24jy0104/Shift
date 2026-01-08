@@ -42,7 +42,7 @@
             @csrf
             <div class="login-text">
                 レジ番号：
-                <input type="number" name="id"><br>
+                <input type="number" name="register_number"><br>
             </div>
 
             <div class="login-text">

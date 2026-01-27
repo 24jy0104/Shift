@@ -1,96 +1,60 @@
-let calendar = document.getElementById('calendar');
-let selectedShifts = {};
+const cells = document.querySelectorAll('.day-cell');
+const shifts = {};
 
-const year = 2025;
-const month = 9; // 10月（0始まりなので9）
-const lastDay = 31;
+cells.forEach(cell => {
+    const form = cell.querySelector('.shift-form');
+    const select = cell.querySelector('.time-range');
+    const display = cell.querySelector('.shift-display');
 
-// 候補データ
-const data = ['〇', '17時', '17時15分', '17時30分', '18時'];
-
-let currentDropdown = null;
-
-// 日付ボタン生成
-for (let day = 1; day <= lastDay; day++) {
-    const dateStr = `${year}-10-${day.toString().padStart(2, '0')}`;
-    const btn = document.createElement('button');
-    btn.textContent = day;
-    btn.dataset.date = dateStr;
-
-    const selectedItemDiv = document.createElement('div');
-    selectedItemDiv.classList.add('selected-item');
-    
-    selectedShifts[dateStr] = "17時";
-    selectedItemDiv.textContent = "17時";
-    
-    btn.appendChild(selectedItemDiv);
-
-    btn.addEventListener('click', (e) => {
+    // 日付セルクリックで開く
+    cell.addEventListener('click', (e) => {
         e.stopPropagation();
 
-        // 既存のドロップダウンを閉じる
-        if (currentDropdown) {
-            currentDropdown.remove();
-            currentDropdown = null;
-        }
-
-        const container = document.createElement('div');
-        container.classList.add('dropdown-container');
-
-        // 候補をボタンで生成
-        data.forEach(optionText => {
-            const optBtn = document.createElement('button');
-            optBtn.textContent = optionText;
-
-            optBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                selectedShifts[dateStr] = optionText;
-                selectedItemDiv.textContent = optionText;
-                container.remove();
-                currentDropdown = null;
-            });
-
-            container.appendChild(optBtn);
+        document.querySelectorAll('.shift-form').forEach(f => {
+            if (f !== form) {
+                f.classList.add('hidden');
+            }
         });
 
-        btn.appendChild(container);
-        currentDropdown = container;
+        form.classList.remove('hidden');
     });
 
-    calendar.appendChild(btn);
-}
+    // フォーム内クリックは閉じない
+    form.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
 
-// 外をクリックで閉じる
-document.addEventListener('click', (e) => {
-    if (
-        currentDropdown &&
-        !currentDropdown.contains(e.target) &&
-        !e.target.closest('button')
-    ) {
-        currentDropdown.remove();
-        currentDropdown = null;
+    // ★ 選択したら閉じる
+    if (select) {
+        select.addEventListener('change', () => {
+            if (display) {
+                display.textContent = select.value;
+            }
+            form.classList.add('hidden');
+        });
     }
 });
 
-// 提出ボタン
+// 画面のどこかをクリックしたら全部閉じる
+document.addEventListener('click', () => {
+    document.querySelectorAll('.shift-form').forEach(form => {
+        form.classList.add('hidden');
+    });
+});
+
 function sendShift() {
-    if (Object.keys(selectedShifts).length === 0) {
-        alert("シフトが選択されていません！");
-        return;
-    }
-    localStorage.setItem("shiftData", JSON.stringify(selectedShifts));
-    alert("シフトを提出しました！");
-}
+    document.querySelectorAll('.day-cell').forEach(cell => {
+        const date = cell.dataset.date;
+        if (!date) return;
 
-// 確認ボタン
+        const work = cell.querySelector('.work-type')?.value;
+        const time = cell.querySelector('.time-range')?.value;
 
+        if (work) {
+            shifts[date] = { work, time };
+        }
+    });
 
-function goToCheckPage() {
-    const stored = localStorage.getItem("shiftData");
-    // if (!stored) {
-    //     alert("提出されたシフトはまだありません！");
-    //     return;
-    // }
-    // ✅ ページ遷移
-    window.location.href = "shift_form.blade.php";
+    document.getElementById('shiftsInput').value =
+        JSON.stringify(shifts);
 }

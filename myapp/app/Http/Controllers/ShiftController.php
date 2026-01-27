@@ -28,4 +28,14 @@ class ShiftController extends Controller
 
         return view('shift_result', compact('id','date','time','note'));
     }
+
+    public function check(Request $request)
+{
+    $shifts = json_decode($request->input('shifts'), true);
+
+    return view('admin.shift.shiftcheck', [
+        'shifts' => $shifts,
+    ]);
+}
+
 }

@@ -1,41 +1,90 @@
-.calendar {
-    width: 420px;
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 auto;
+#month{
+    text-align: center;
 }
-
-.calendar button {
-    width: 60px;
-    height: 60px;
-    margin: 5px;
-    font-size: 18px;
-    position: relative;
-    cursor: pointer;
+.day-cell {
     vertical-align: top;
+    height: 120px;
+    position: relative;
 }
 
-.dropdown-container {
-    position: absolute;
-    top: 60px;
-    /* ボタンの下 */
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    background: white;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+.shift-form {
+    margin-top: 6px;
 }
 
 select {
     width: 100%;
-    font-size: 16px;
-    padding: 4px;
+    margin-top: 4px;
 }
 
-.selected-item {
-    margin-top: 5px;
-    font-size: 14px;
-    color: #333;
-    text-align: center;
-    min-height: 20px;
+table {
+    border-collapse: collapse;
+    margin: 0 auto;
 }
+
+th, td {
+    border: none;
+}
+
+.day-cell {
+    width: 60px;
+    height: 80px;
+    padding: 6px;
+    box-sizing: border-box;
+    background: #f8f8f8;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+    vertical-align: top;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.day-cell:hover {
+    background: #eef7f2;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.day-cell {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.shift-form {
+    position: absolute;
+    top: 28px;
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 6px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 100;
+}
+
+.hidden {
+    display: none;
+}
+
+.shift-form select {
+    width: 100%;
+    margin-top: 4px;
+    padding: 4px;
+    font-size: 13px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+@media screen and (max-width: 600px) {
+    .day-cell {
+        width: 50px;
+        height: 90px;
+        font-size: 12px;
+    }
+}
+
+.shift-display {
+    margin-top: 4px;
+    font-size: 0.85rem;
+    color: #333;
+}
+

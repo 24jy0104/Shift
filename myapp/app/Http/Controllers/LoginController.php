@@ -44,7 +44,4 @@ class LoginController extends Controller
             'login' => 'レジ番号またはパスワードが違います',
         ]);
     }
-
-
-
 }

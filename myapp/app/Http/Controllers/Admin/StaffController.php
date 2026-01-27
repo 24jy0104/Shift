@@ -18,32 +18,35 @@ class StaffController extends Controller
     // 登録処理
     public function store(Request $request)
     {
-        // バリデーション
         $request->validate(
             [
-                'register_number' => 'required|unique:staff,register_number',
+                'register_number' => 'required|unique:staffs,register_number',
                 'name' => 'required',
                 'password' => 'required|min:4',
                 'work_type' => 'required|in:morning,night,both',
-                'email' => 'required|email',
+                'email' => 'required|email|unique:staffs,email',
             ],
             [
-                'register_number.unique' => 'このレジ番号はすでに登録されています',
+                'register_number.required' => 'レジ番号は必須です',
+                'register_number.unique'   => 'このレジ番号はすでに登録されています',
+                'name.required'            => '名前は必須です',
+                'password.required'        => 'パスワードは必須です',
+                'password.min'             => 'パスワードは4文字以上で入力してください',
+                'work_type.required'       => '勤務区分を選択してください',
+                'email.required'           => 'メールアドレスは必須です',
+                'email.email'              => '正しいメールアドレス形式で入力してください',
+                'email.unique'             => 'このメールアドレスはすでに登録されています',
             ]
         );
 
-
-        // 保存
         Staff::create([
             'register_number' => $request->register_number,
-            'name' => $request->name,
-            'password' => Hash::make($request->password),
-            'work_type' => $request->work_type,
-            'email' => $request->email,
+            'name'            => $request->name,
+            'password'        => Hash::make($request->password),
+            'work_type'       => $request->work_type,
+            'email'           => $request->email,
         ]);
 
-
-        // 管理者メニューへ
         return redirect('/admin/menu');
     }
 
@@ -61,26 +64,27 @@ class StaffController extends Controller
         return view('admin.staff.updateStaff', compact('staff'));
     }
 
+    // 更新処理
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'register_number' => 'required|unique:staff,register_number,' . $id,
-            'name' => 'required',
-            'work_type' => 'required|in:morning,night,both',
-            'email' => 'required|email',
-        ]);
+        $request->validate(
+            [
+                'register_number' => 'required|unique:staffs,register_number,' . $id,
+                'name' => 'required',
+                'work_type' => 'required|in:morning,night,both',
+                'email' => 'required|email|unique:staffs,email,' . $id,
+            ]
+        );
 
         $staff = Staff::findOrFail($id);
 
         $staff->update([
             'register_number' => $request->register_number,
-            'name' => $request->name,
-            'work_type' => $request->work_type,
-            'email' => $request->email,
+            'name'            => $request->name,
+            'work_type'       => $request->work_type,
+            'email'           => $request->email,
         ]);
 
         return redirect('/admin/staff');
     }
-
 }
-

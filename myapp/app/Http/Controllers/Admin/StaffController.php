@@ -20,11 +20,11 @@ class StaffController extends Controller
     {
         $request->validate(
             [
-                'register_number' => 'required|unique:staffs,register_number',
+                'register_number' => 'required|unique:staff,register_number',
                 'name' => 'required',
                 'password' => 'required|min:4',
                 'work_type' => 'required|in:morning,night,both',
-                'email' => 'required|email|unique:staffs,email',
+                'email' => 'required|email|unique:staff,email',
             ],
             [
                 'register_number.required' => 'レジ番号は必須です',
@@ -69,10 +69,10 @@ class StaffController extends Controller
     {
         $request->validate(
             [
-                'register_number' => 'required|unique:staffs,register_number,' . $id,
+                'register_number' => 'required|unique:staff,register_number,' . $id,
                 'name' => 'required',
                 'work_type' => 'required|in:morning,night,both',
-                'email' => 'required|email|unique:staffs,email,' . $id,
+                'email' => 'required|email|unique:staff,email,' . $id,
             ]
         );
 

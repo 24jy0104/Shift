@@ -1,6 +1,14 @@
 #month{
     text-align: center;
 }
+
+.calendar-month {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0 20px;
+}
+
 .day-cell {
     vertical-align: top;
     height: 120px;
@@ -73,6 +81,8 @@ th, td {
     border-radius: 6px;
     border: 1px solid #ccc;
 }
+
+
 
 @media screen and (max-width: 600px) {
     .day-cell {

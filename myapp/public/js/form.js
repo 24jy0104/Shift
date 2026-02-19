@@ -1,15 +1,17 @@
 const cells = document.querySelectorAll('.day-cell');
 const shifts = {};
 
+
 cells.forEach(cell => {
     const form = cell.querySelector('.shift-form');
     const select = cell.querySelector('.time-range');
     const display = cell.querySelector('.shift-display');
 
-    // 日付セルクリックで開く
+    // 日付クリック
     cell.addEventListener('click', (e) => {
         e.stopPropagation();
 
+        // 他を閉じる
         document.querySelectorAll('.shift-form').forEach(f => {
             if (f !== form) {
                 f.classList.add('hidden');
@@ -17,6 +19,18 @@ cells.forEach(cell => {
         });
 
         form.classList.remove('hidden');
+
+        // 即プルダウン開く
+        requestAnimationFrame(() => {
+            if (select) {
+                select.focus();
+                select.dispatchEvent(new MouseEvent('mousedown', {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window
+                }));
+            }
+        });
     });
 
     // フォーム内クリックは閉じない
@@ -24,37 +38,33 @@ cells.forEach(cell => {
         e.stopPropagation();
     });
 
-    // ★ 選択したら閉じる
+    // 選択したら閉じる
     if (select) {
         select.addEventListener('change', () => {
-            if (display) {
-                display.textContent = select.value;
-            }
+            const date = cell.dataset.date;   // ← 追加
+        
+            display.textContent = select.value;
+        
+            shifts[date] = select.value;      // ← 追加（保存）
+        
+            console.log(shifts);
+            
+            form.classList.add('hidden');
+        });
+        
+    }
+});
+
+// 外クリックで閉じる（←ここは1回だけ！）
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.day-cell')) {
+        document.querySelectorAll('.shift-form').forEach(form => {
             form.classList.add('hidden');
         });
     }
 });
 
-// 画面のどこかをクリックしたら全部閉じる
-document.addEventListener('click', () => {
-    document.querySelectorAll('.shift-form').forEach(form => {
-        form.classList.add('hidden');
-    });
-});
-
 function sendShift() {
-    document.querySelectorAll('.day-cell').forEach(cell => {
-        const date = cell.dataset.date;
-        if (!date) return;
-
-        const work = cell.querySelector('.work-type')?.value;
-        const time = cell.querySelector('.time-range')?.value;
-
-        if (work) {
-            shifts[date] = { work, time };
-        }
-    });
-
-    document.getElementById('shiftsInput').value =
-        JSON.stringify(shifts);
+    document.getElementById('shiftsInput').value = JSON.stringify(shifts);
 }
+

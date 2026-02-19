@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -8,20 +8,20 @@ use Carbon\Carbon;
 
 class ShiftController extends Controller
 {
-    public function index()
-    {
+    public function index(){
         $today = Carbon::now();
-
-        return view('admin.shift.shift', [
+        return view('staff.shift', [
             'today' => $today,
         ]);
     }
+    
+
 
     public function submit(Request $request)
     {
         $today = Carbon::now();
         $shifts = json_decode($request->input('shifts'), true);
     
-        return view('admin.shift.shiftcheck', compact('today', 'shifts'));
+        return view('staff.shiftcheck', compact('today', 'shifts'));
     }
 }

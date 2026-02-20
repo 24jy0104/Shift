@@ -69,7 +69,7 @@
         </tr>
     </table>
 
-    <button type="submit" onclick="sendShift()">提出</button>
+    <button type="submit">確認</button>
 </form>
 @endsection
 

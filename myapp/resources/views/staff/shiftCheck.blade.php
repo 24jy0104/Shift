@@ -56,7 +56,7 @@
     </tr>
 </table>
 
-<form method="POST" action="{{ route('shift.submit') }}">
+<form method="POST" action="{{ route('shift.insert') }}">
     @csrf
     <input type="hidden" name="shifts" value='@json($shifts)'>
     <button type="submit">確定</button>
@@ -65,3 +65,4 @@
 <a href="{{ route('shift.index') }}">戻る</a>
 
 @endsection
+

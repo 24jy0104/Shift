@@ -58,8 +58,7 @@ Route::post('/admin/staff/{id}/update', [StaffController::class, 'update']);
 
 //シフト
 
-Route::get('/admin/shift', [ShiftController::class, 'index'])
-    ->name('shift.index');
+
 
 
 
@@ -79,7 +78,14 @@ Route::post('/staff/login_check', [LoginController::class, 'staffLoginCheck']);
 Route::post('/staff/logout', [LoginController::class, 'staffLogout']);
 
 // シフト提出
-Route::get('/staff/shift',[StaffShiftController::class, 'index']);
+
+
+Route::get('/staff/shift', [StaffShiftController::class, 'index'])
+    ->name('shift.index');
 
 Route::post('/staff/shiftCheck', [StaffShiftController::class, 'submit'])
     ->name('shift.submit');
+
+Route::post('/staff/shiftInsert',[StaffShiftController::class,'insert'])
+    ->name('shift.insert');
+

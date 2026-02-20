@@ -64,7 +64,11 @@ document.addEventListener('click', (e) => {
     }
 });
 
-function sendShift() {
-    document.getElementById('shiftsInput').value = JSON.stringify(shifts);
-}
+const form = document.querySelector('form');
+form.addEventListener('submit', (e) => {
+    const input = document.getElementById('shiftsInput');
+    input.value = JSON.stringify(shifts);
+    console.log('送信前のhidden:', input.value);
+});
+
 

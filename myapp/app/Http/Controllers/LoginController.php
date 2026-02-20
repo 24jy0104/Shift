@@ -37,6 +37,9 @@ class LoginController extends Controller
 
         if ($staff && Hash::check($request->password, $staff->password)) {
             auth()->guard('staff')->login($staff);
+
+            session(['staff_id' => $staff->id]);
+
             return redirect('/staff/menu');
         }
 

@@ -12,9 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('shifts', function (Blueprint $table) {
-            $table->time('start_time')->nullable()->change();
-            $table->time('end_time')->nullable()->change();
+            $table->string('start_time')->nullable()->change();
+            $table->string('end_time')->nullable()->change();
         });
+        
     }
 
     /**

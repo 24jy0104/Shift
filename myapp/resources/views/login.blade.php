@@ -27,36 +27,37 @@
 
     </header>
 
-    <fieldset>
-        <legend>
-            @if(session('error'))
-                <p style="color:red">⚠ {{ session('error') }}</p>
-            @elseif(session('success'))
-                <p style="color:green">✅ {{ session('success') }}</p>
-            @else
-                レジ番号・パスワードを入力してください。
-            @endif
-        </legend>
+    <main>
+        <fieldset>
+            <legend>
+                @if(session('error'))
+                    <p style="color:red">⚠ {{ session('error') }}</p>
+                @elseif(session('success'))
+                    <p style="color:green">✅ {{ session('success') }}</p>
+                @else
+                    レジ番号・パスワードを入力してください。
+                @endif
+            </legend>
 
-        <form method="post" action="{{ url('/login_check') }}">
-            @csrf
-            <div class="login-text">
-                レジ番号：
-                <input type="number" name="register_number"><br>
-            </div>
+            <form method="post" action="{{ url('/login_check') }}">
+                @csrf
+                <div class="login-text">
+                    レジ番号：
+                    <input type="number" name="register_number"><br>
+                </div>
 
-            <div class="login-text">
-                パスワード：
-                <input type="text" name="password"><br>
-            </div>
+                <div class="login-text">
+                    パスワード：
+                    <input type="text" name="password"><br>
+                </div>
 
-            <input type="submit" value="ログイン" id="login-button">
-            <br>
-            <a href="{{ url('/registercustomer') }}">初めての方はこちらからどうぞ</a>
-        </form>
-    </fieldset>
-    <!-- <button onclick="location.href='top.php'">トップページへ</button> -->
-
+                <input type="submit" value="ログイン" id="login-button">
+                <br>
+                <a href="{{ url('/registercustomer') }}">初めての方はこちらからどうぞ</a>
+            </form>
+        </fieldset>
+        <!-- <button onclick="location.href='top.php'">トップページへ</button> -->
+    </main>
 </body>
 
 </html>

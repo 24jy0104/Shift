@@ -10,6 +10,8 @@ class Shift extends Model
         'staff_id',
         'date',
         'time_type',
+        'start_time',
+        'end_time', 
     ];
 
     public function staff()

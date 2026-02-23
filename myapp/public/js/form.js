@@ -1,26 +1,22 @@
 const cells = document.querySelectorAll('.day-cell');
 const shifts = {};
 
-
+// 各セルの処理
 cells.forEach(cell => {
     const form = cell.querySelector('.shift-form');
     const select = cell.querySelector('.time-range');
     const display = cell.querySelector('.shift-display');
 
-    // 日付クリック
+    // 日付クリックでフォーム表示
     cell.addEventListener('click', (e) => {
         e.stopPropagation();
 
-        // 他を閉じる
         document.querySelectorAll('.shift-form').forEach(f => {
-            if (f !== form) {
-                f.classList.add('hidden');
-            }
+            if (f !== form) f.classList.add('hidden');
         });
 
         form.classList.remove('hidden');
 
-        // 即プルダウン開く
         requestAnimationFrame(() => {
             if (select) {
                 select.focus();
@@ -33,42 +29,36 @@ cells.forEach(cell => {
         });
     });
 
-    // フォーム内クリックは閉じない
-    form.addEventListener('click', (e) => {
-        e.stopPropagation();
-    });
+    form.addEventListener('click', (e) => e.stopPropagation());
 
-    // 選択したら閉じる
+    // 選択変更時
     if (select) {
         select.addEventListener('change', () => {
-            const date = cell.dataset.date;   // ← 追加
-        
+            const date = cell.dataset.date;
             display.textContent = select.value;
-        
-            shifts[date] = select.value;      // ← 追加（保存）
-        
+
+            // 空文字は削除、◎や時間は保存
+            if (select.value === '') {
+                delete shifts[date];
+            } else {
+                shifts[date] = select.value;
+            }
+
+            form.classList.add('hidden');
             console.log(shifts);
-            
-            form.classList.add('hidden');
-        });
-        
-    }
-});
-
-// 外クリックで閉じる（←ここは1回だけ！）
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('.day-cell')) {
-        document.querySelectorAll('.shift-form').forEach(form => {
-            form.classList.add('hidden');
         });
     }
 });
 
+// 外クリックで閉じる
+document.addEventListener('click', () => {
+    document.querySelectorAll('.shift-form').forEach(form => form.classList.add('hidden'));
+});
+
+// 送信前に hidden にセット
 const form = document.querySelector('form');
 form.addEventListener('submit', (e) => {
     const input = document.getElementById('shiftsInput');
     input.value = JSON.stringify(shifts);
     console.log('送信前のhidden:', input.value);
 });
-
-

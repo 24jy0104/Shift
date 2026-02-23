@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/form.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/calendar.css') }}">
+@endsection
+
 @section('content')
 <h1>シフト管理（カレンダー表示）</h1>
 
@@ -14,7 +19,7 @@
     $weekdays = ['日', '月', '火', '水', '木', '金', '土'];
 @endphp
 
-<form method="POST" action="{{ route('shift.submit') }}" onsubmit="sendShift()">
+<form method="POST" action="{{ route('shift.submit') }}">
     @csrf
     <input type="hidden" name="shifts" id="shiftsInput">
 
@@ -68,7 +73,7 @@
             @endfor
         </tr>
     </table>
-
+    
     <button type="submit">確認</button>
 </form>
 @endsection

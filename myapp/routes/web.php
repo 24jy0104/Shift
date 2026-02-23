@@ -57,7 +57,8 @@ Route::get('/admin/staff/{id}/edit', [StaffController::class, 'edit']);
 Route::post('/admin/staff/{id}/update', [StaffController::class, 'update']);
 
 //シフト
-
+Route::get('/admin/shift', [AdminShiftController::class, 'index'])
+    ->name('shift.index');
 
 
 

@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/form.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/calendar.css') }}">
+@endsection
+
 @section('content')
 <h1>シフト確認</h1>
 
@@ -58,7 +63,7 @@
 
 <form method="POST" action="{{ route('shift.insert') }}">
     @csrf
-    <input type="hidden" name="shifts" value='@json($shifts)'>
+    <input type="hidden" name="shifts" value='{!! json_encode($shifts) !!}'>
     <button type="submit">確定</button>
 </form>
 
@@ -66,3 +71,6 @@
 
 @endsection
 
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/calendar.css') }}">
+@endsection

@@ -30,30 +30,46 @@ class ShiftController extends Controller
         return view('staff.shiftcheck', compact('today', 'shifts'));
     }
 
-    public function insert(Request $request)
-{
-    $shifts = json_decode($request->shifts, true);
+
+    //DBに登録処理
+    public function insert(Request $request){
+        
+
+    $shiftsJson = $request->input('shifts');
+    $shifts = json_decode($shiftsJson, true);
     
-    
+    // dd($shifts);
     $staffId = session('staff_id'); 
     if (!$staffId) {
         abort(403, 'ログイン情報がありません');
     }
 
     foreach ($shifts as $date => $value) {
-        $data = ['staff_id' => $staffId, 'date' => $date];
+        $data = [
+            'staff_id' => $staffId,
+            'date' => $date
+        ];
     
+        // ◎ または空欄は null にする
         if ($value === '◎' || $value === '') {
-            $update = ['start_time' => null, 'end_time' => null];
+            $update = [
+                'start_time' => null,
+                'end_time' => null
+            ];
         } else {
-            $update = ['start_time' => $value, 'end_time' => null];
+            // 時間が入っている場合は start_time にセット
+            $update = [
+                'start_time' => $value,
+                'end_time' => null
+            ];
         }
     
         Shift::updateOrCreate($data, $update);
     }
     
 
-    return redirect()->route('shift.index');
+    // return redirect()->route('shift.index');
+    return view('staff.menu');
 }
 
     
